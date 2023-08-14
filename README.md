@@ -25,4 +25,4 @@ Engagement with fellow programmers, developers, and enthusiasts is warmly encour
 The sojourn embarked upon in this coding escapade is punctuated by gratitude for your presence. Let our collective ardor for coding excellence kindle an exceptional journey as we endeavor to render each project a magnum opus.
 
 With the utmost enthusiasm,
-Matthias Frost Biil
+-Matthias Frost Biil
