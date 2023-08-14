@@ -2,9 +2,9 @@
 
 ![Sukkertoppen HTX Gymnasium Logo](https://www.elevportalen.dk//files/connie%202020/next_top20.jpg)
 
-- ## Class: Programmering B
-- ## School: Sukkertoppen HTX Gymnasium
-- ## Location: Valby, Denmark
+## Class: Programmering B
+## School: Sukkertoppen HTX Gymnasium
+## Location: Valby, Denmark
 
 Greetings, esteemed members of the GitHub community! 👋
 
