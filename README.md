@@ -1,6 +1,6 @@
 # Matthias Frost Biil's School Projects Repository
 
-![Sukkertoppen HTX Gymnasium Logo](https://www.elevportalen.dk//files/connie%202020/next_top20.jpg))
+![Sukkertoppen HTX Gymnasium Logo](https://www.elevportalen.dk//files/connie%202020/next_top20.jpg)
 
 ## Class: Programmering B
 ## School: Sukkertoppen HTX Gymnasium
