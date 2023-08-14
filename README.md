@@ -26,4 +26,4 @@ The sojourn embarked upon in this coding escapade is punctuated by gratitude for
 
 With the utmost enthusiasm,
 
--Matthias Frost Biil
+- Matthias Frost Biil
