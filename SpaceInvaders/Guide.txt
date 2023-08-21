@@ -1,6 +1,6 @@
 - Rumskib Grafik og animation (Done)
-- 1 Alien grafik og animation
-- To rækker ens aliens
+- 1 Alien grafik og animation (Done)
+- To rækker ens aliens (Done)
 - Rumskib skal skyde
 - Kollisionsdetektion
 - Rumskib forsvinder efter Kollision
@@ -8,6 +8,6 @@
 - Aliens bevæger sig fra højre til venstre
 - Andre aliens indfør nedarving
 - Bunkers man kan gemme sig bag ved
-- Alien an skyde indfør nedarving
+- Alien kan skyde indfør nedarving
 - Andre ufoer
 - Point system

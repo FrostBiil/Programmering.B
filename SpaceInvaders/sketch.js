@@ -1,14 +1,17 @@
 // Constants
-const Animation_frame_rate_change = 10;
+const anim_change_rate = 10;
+const aliens_per_row = 8;
 
 // Variables
 let anim_frame = 0;
 let spaceship;
 let alien;
+let aliens_dir = 1;
 
 // Arrays
 const spaceshipImages = [];
 const alienImages = [];
+const alienArray = [];
 
 function preload() {
   // Load spaceship images
@@ -17,29 +20,40 @@ function preload() {
   }
 
   // Load aliens images
-  for (let i = 0; i < 5; i++) {
-    alienImages.push(loadImage(`Images/Aliens/SpaceInvadersAliens_${i}.jpg`));
+  for (let i = 0; i < 2; i++) {
+    alienImages.push(loadImage(`Images/Aliens/SpaceInvadersAliens_${i}.png`));
   }
 }
 
 function setup() {
   createCanvas(400, 400);
   Spaceship = new Spaceship(200, 350);
-  Alien = new Alien(100, 100);
+
+  // Create two rows of the same aliens
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < aliens_per_row; j++) {
+      alienArray.push(new Alien(40 + j * 40, 50 + i * 40));
+    }
+  }
 }
 
 function draw() {
-  background(220);
-  Alien.display();
+  background(0);
+  for (let i = 0; i < alienArray.length; i++) {
+    alienArray[i].display();
+  }
   Spaceship.display();
   animationHandler();
 }
 
 function animationHandler() {
   anim_frame++;
-  if (anim_frame % Animation_frame_rate_change === 0) {
+  if (anim_frame % anim_change_rate === 0) {
     Spaceship.animate();
-    Alien.animate();
+
+    for (let i = 0; i < alienArray.length; i++) {
+      alienArray[i].animate();
+    }
   }
 }
 
@@ -49,30 +63,25 @@ class Alien {
     this.x = x;
     this.y = y;
     this.size = 40;
-    this.speed = 1;
+    this.speed = 2;
     this.direction = 0;
     this.image = alienImages[0];
   }
 
   // Display the alien
   display() {
-    this.move();
+    this.display();
+    image(this.image, this.x, this.y, this.size, this.size);
+  }
+
+  // Display the alien
+  display() {
     image(this.image, this.x, this.y, this.size, this.size);
   }
 
   // Move the alien from side to side
   move() {
-    if (this.direction === 0) {
-      this.x += this.speed;
-    } else if (this.direction === 1) {
-      this.x -= this.speed;
-    }
 
-    if (this.x >= width - this.size) {
-      this.direction = 1;
-    } else if (this.x <= 0) {
-      this.direction = 0;
-    }
   }
 
   // Animation of the alien
