@@ -1,7 +1,7 @@
 - Rumskib Grafik og animation (Done)
 - 1 Alien grafik og animation (Done)
 - To rækker ens aliens (Done)
-- Rumskib skal skyde
+- Rumskib skal skyde (Done)
 - Kollisionsdetektion
 - Rumskib forsvinder efter Kollision
 - Kugle forsvinder efet Kollision

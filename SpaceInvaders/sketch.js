@@ -3,15 +3,19 @@ const anim_change_rate = 10;
 const aliens_per_row = 8;
 
 // Variables
+
+// Integers
 let anim_frame = 0;
-let spaceship;
-let alien;
 let aliens_dir = 1;
+
+// Booleans
+let readyToShoot = true;
 
 // Arrays
 const spaceshipImages = [];
 const alienImages = [];
 const alienArray = [];
+const bullets = [];
 
 function preload() {
   // Load spaceship images
@@ -44,6 +48,17 @@ function draw() {
   }
   Spaceship.display();
   animationHandler();
+
+  if (keyIsDown(32) && readyToShoot) {
+    Spaceship.shoot();
+    readyToShoot = false;
+  }
+
+  if (bullets !== undefined) {
+    for (let i = 0; i < bullets.length; i++) {
+      bullets[i].display();
+    }
+  }
 }
 
 function animationHandler() {
@@ -124,5 +139,43 @@ class Spaceship {
     const currentIndex = spaceshipImages.indexOf(this.image);
     const nextIndex = (currentIndex + 1) % spaceshipImages.length;
     this.image = spaceshipImages[nextIndex];
+  }
+
+  // Shoot a bullet
+  shoot() {
+    bullets.push(new Bullet(this.x, this.y));
+  }
+}
+
+class Bullet {
+  constructor(x = 200, y = 300, size = 10, speed = 2) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.speed = speed;
+  }
+
+  // Display the bullet
+  display() {
+    this.move();
+
+    noStroke();
+    fill(255);
+    beginShape();
+    vertex(this.x, this.y - this.size); // Top point
+    quadraticVertex(this.x + this.size, this.y, this.x, this.y + this.size); // Curve to the right
+    quadraticVertex(this.x - this.size, this.y, this.x, this.y - this.size); // Curve to the left
+    endShape(CLOSE);
+  }
+
+  // Move the bullet
+  move() {
+    this.y -= this.speed;
+
+    if (this.y < 0) {
+      bullets.splice(bullets.indexOf(this), 1);
+      readyToShoot = true;
+    }
+
   }
 }
