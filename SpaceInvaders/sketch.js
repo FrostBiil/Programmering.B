@@ -143,7 +143,7 @@ class Spaceship {
 
   // Shoot a bullet
   shoot() {
-    bullets.push(new Bullet(this.x, this.y));
+    bullets.push(new Bullet(this.x + this.size / 2, this.y));
   }
 }
 
@@ -158,6 +158,7 @@ class Bullet {
   // Display the bullet
   display() {
     this.move();
+    this.hitAlien();
 
     noStroke();
     fill(255);
@@ -176,6 +177,16 @@ class Bullet {
       bullets.splice(bullets.indexOf(this), 1);
       readyToShoot = true;
     }
+  }
 
+  // Check if the bullet hit an alien
+  hitAlien() {
+    for (let i = 0; i < alienArray.length; i++) {
+      if (dist(this.x, this.y, alienArray[i].x, alienArray[i].y) < this.size + alienArray[i].size) {
+        alienArray.splice(i, 1);
+        bullets.splice(bullets.indexOf(this), 1);
+        readyToShoot = true;
+      }
+    }
   }
 }
