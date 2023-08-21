@@ -4,7 +4,7 @@
 - Rumskib skal skyde (Done)
 - Kollisionsdetektion (Done)
 - Rumskib forsvinder efter Kollision
-- Kugle forsvinder efet Kollision
+- Kugle forsvinder efet Kollision (Done)
 - Aliens bevæger sig fra højre til venstre
 - Andre aliens indfør nedarving
 - Bunkers man kan gemme sig bag ved
