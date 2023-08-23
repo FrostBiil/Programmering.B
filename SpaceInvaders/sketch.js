@@ -1,12 +1,16 @@
+//#region variables
 // Constants
 const anim_change_rate = 10;
 const aliens_per_row = 8;
 
 // Variables
+let aliens_dir = "left";
+
+// Objects
+let spaceship;
 
 // Integers
 let anim_frame = 0;
-let aliens_dir = 1;
 
 // Booleans
 let readyToShoot = true;
@@ -16,6 +20,8 @@ const spaceshipImages = [];
 const alienImages = [];
 const alienArray = [];
 const bullets = [];
+
+//#endregion
 
 function preload() {
   // Load spaceship images
@@ -31,7 +37,7 @@ function preload() {
 
 function setup() {
   createCanvas(400, 400);
-  Spaceship = new Spaceship(200, 350);
+  spaceship = new Spaceship(200, 350);
 
   // Create two rows of the same aliens
   for (let i = 0; i < 2; i++) {
@@ -43,28 +49,39 @@ function setup() {
 
 function draw() {
   background(0);
-  for (let i = 0; i < alienArray.length; i++) {
-    alienArray[i].display();
+  if (frameCount % 30 === 0) {
+    if (moveDownAllAliens()) {
+      for (let i = 0; i < alienArray.length; i++) {
+        alienArray[i].moveDown();
+      }
+    } else {
+      for (let i = 0; i < alienArray.length; i++) {
+        alienArray[i].move();
+      }
+    }
   }
-  Spaceship.display();
-  animationHandler();
+  for (let i = 0; i < alienArray.length; i++) {
+    alienArray[i].draw();
+  }
+  spaceship.draw();
+  animHandler();
 
   if (keyIsDown(32) && readyToShoot) {
-    Spaceship.shoot();
+    spaceship.shoot();
     readyToShoot = false;
   }
 
   if (bullets !== undefined) {
     for (let i = 0; i < bullets.length; i++) {
-      bullets[i].display();
+      bullets[i].draw();
     }
   }
 }
 
-function animationHandler() {
+function animHandler() {
   anim_frame++;
   if (anim_frame % anim_change_rate === 0) {
-    Spaceship.animate();
+    spaceship.animate();
 
     for (let i = 0; i < alienArray.length; i++) {
       alienArray[i].animate();
@@ -72,31 +89,52 @@ function animationHandler() {
   }
 }
 
-// Create an alien class
+function moveDownAllAliens() {
+  for (let i = 0; i < alienArray.length; i++) {
+    if (alienArray[i].x - alienArray[i].speed <= 0 && aliens_dir == "left" || alienArray[i].x + alienArray[i].size + alienArray[i].speed >= width && aliens_dir == "right") {
+      if (aliens_dir == "left") {
+        aliens_dir = "right";
+      } else {
+        aliens_dir = "left";
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
 class Alien {
   constructor(x = 200, y = 200) {
     this.x = x;
     this.y = y;
     this.size = 40;
-    this.speed = 2;
-    this.direction = 0;
+    this.speed = 10;
+    this.verticalSpeed = 20;
     this.image = alienImages[0];
   }
 
-  // Display the alien
-  display() {
-    this.display();
+  // Draw the alien
+  draw() {
     image(this.image, this.x, this.y, this.size, this.size);
   }
 
-  // Display the alien
-  display() {
-    image(this.image, this.x, this.y, this.size, this.size);
+  // Move the alien from side to side and down
+  move(speed = this.speed) {
+    this.speed = speed;
+
+    // Move from left to right
+    if (aliens_dir == "right") {
+      this.x += speed;
+    }
+    // Move from right to left
+    else if (aliens_dir == "left") {
+      this.x -= speed;
+    }
   }
 
-  // Move the alien from side to side
-  move() {
-
+  // Move the alien down
+  moveDown() {
+    this.y += this.speed;
   }
 
   // Animation of the alien
@@ -106,6 +144,17 @@ class Alien {
     this.image = alienImages[nextIndex];
   }
 }
+
+class Squid extends Alien {
+}
+
+class Crap extends Alien {
+}
+
+class Octupus extends Alien {
+}
+
+
 
 // Create a spaceship class
 class Spaceship {
@@ -118,8 +167,8 @@ class Spaceship {
     this.image = spaceshipImages[0];
   }
 
-  // Display the spaceship
-  display() {
+  // Draw the spaceship
+  draw() {
     this.move();
     image(this.image, this.x, this.y, this.size, this.size);
   }
@@ -155,8 +204,8 @@ class Bullet {
     this.speed = speed;
   }
 
-  // Display the bullet
-  display() {
+  // Draw the bullet
+  draw() {
     this.move();
     this.hitAlien();
 
