@@ -1,7 +1,8 @@
-//#region variables
+//#region
 // Constants
-const anim_change_rate = 10;
+const anim_change_rate = 20;
 const aliens_per_row = 8;
+const aliens_space = 30;
 
 // Variables
 let aliens_dir = "left";
@@ -17,7 +18,9 @@ let readyToShoot = true;
 
 // Arrays
 const spaceshipImages = [];
-const alienImages = [];
+const SquidImages = [];
+const CrabImages = [];
+const OctopusImages = [];
 const alienArray = [];
 const bullets = [];
 
@@ -25,13 +28,43 @@ const bullets = [];
 
 function preload() {
   // Load spaceship images
-  for (let i = 0; i < 3; i++) {
-    spaceshipImages.push(loadImage(`Images/SpaceShips/ship_${i}.png`));
+  for (let i = 1; i < 4; i++) {
+    const img = loadImage(`Images/SpaceShips/img${i}.png`);
+    if (img != undefined || null) {
+      spaceshipImages.push(img);
+    } else {
+      console.error(`Failed to load image ship_${i}.png`);
+    }
   }
 
-  // Load aliens images
-  for (let i = 0; i < 2; i++) {
-    alienImages.push(loadImage(`Images/Aliens/SpaceInvadersAliens_${i}.png`));
+  // Load Squid images
+  for (let i = 1; i < 3; i++) {
+    const img = loadImage(`Images/Squid/Img${i}.png`);
+    if (img != undefined || null) {
+      SquidImages.push(img);
+    } else {
+      console.error(`Failed to load image Img${i}.png`);
+    }
+  }
+
+  // Load Crab images
+  for (let i = 1; i < 3; i++) {
+    const img = loadImage(`Images/Crab/Img${i}.png`);
+    if (img != undefined || null) {
+      CrabImages.push(img);
+    } else {
+      console.error(`Failed to load image Img${i}.png`);
+    }
+  }
+
+  // Load Octopus images
+  for (let i = 1; i < 3; i++) {
+    const img = loadImage(`Images/Octopus/Img${i}.png`);
+    if (img != undefined || null) {
+      OctopusImages.push(img);
+    } else {
+      console.error(`Failed to load image Img${i}.png`);
+    }
   }
 }
 
@@ -40,9 +73,17 @@ function setup() {
   spaceship = new Spaceship(200, 350);
 
   // Create two rows of the same aliens
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 5; i++) {
     for (let j = 0; j < aliens_per_row; j++) {
-      alienArray.push(new Alien(40 + j * 40, 50 + i * 40));
+      if (i == 0) {
+        alienArray.push(new Octopus(aliens_space + j * aliens_space, aliens_space + i * aliens_space));
+      }
+      else if (i == 1 || i == 2) {
+        alienArray.push(new Crab(aliens_space + j * aliens_space, aliens_space + i * aliens_space));
+      }
+      else if (i == 3 || i == 4) {
+        alienArray.push(new Squid(aliens_space + j * aliens_space, aliens_space + i * aliens_space));
+      }
     }
   }
 }
@@ -94,10 +135,11 @@ function moveDownAllAliens() {
     if (alienArray[i].x - alienArray[i].speed <= 0 && aliens_dir == "left" || alienArray[i].x + alienArray[i].size + alienArray[i].speed >= width && aliens_dir == "right") {
       if (aliens_dir == "left") {
         aliens_dir = "right";
+        return true;
       } else {
         aliens_dir = "left";
+        return true;
       }
-      return true;
     }
   }
   return false;
@@ -110,7 +152,6 @@ class Alien {
     this.size = 40;
     this.speed = 10;
     this.verticalSpeed = 20;
-    this.image = alienImages[0];
   }
 
   // Draw the alien
@@ -136,22 +177,49 @@ class Alien {
   moveDown() {
     this.y += this.speed;
   }
-
-  // Animation of the alien
-  animate() {
-    const currentIndex = alienImages.indexOf(this.image);
-    const nextIndex = (currentIndex + 1) % alienImages.length;
-    this.image = alienImages[nextIndex];
-  }
 }
 
 class Squid extends Alien {
+  constructor(x = 200, y = 200) {
+    super(x, y);
+    this.image = SquidImages[0];
+  }
+
+  // Animation of the alien
+  animate() {
+    const currentIndex = SquidImages.indexOf(this.image);
+    const nextIndex = (currentIndex + 1) % SquidImages.length;
+    this.image = SquidImages[nextIndex];
+  }
+
 }
 
-class Crap extends Alien {
+class Crab extends Alien {
+  constructor(x = 200, y = 200) {
+    super(x, y);
+    this.image = CrabImages[0];
+  }
+ 
+  // Animation of the alien
+  animate() {
+    const currentIndex = CrabImages.indexOf(this.image);
+    const nextIndex = (currentIndex + 1) % CrabImages.length;
+    this.image = CrabImages[nextIndex];
+  }
 }
 
-class Octupus extends Alien {
+class Octopus extends Alien {
+    constructor(x = 200, y = 200) {
+      super(x, y);
+      this.image = OctopusImages[0];
+    }
+
+    // Animation of the alien
+    animate() {
+      const currentIndex = OctopusImages.indexOf(this.image);
+      const nextIndex = (currentIndex + 1) % OctopusImages.length;
+      this.image = OctopusImages[nextIndex];
+    }
 }
 
 
@@ -175,10 +243,10 @@ class Spaceship {
 
   // Move the spaceship
   move() {
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW) && this.x > 0) {
       this.x -= this.speed;
     }
-    if (keyIsDown(RIGHT_ARROW)) {
+    if (keyIsDown(RIGHT_ARROW) && this.x < width - this.size) {
       this.x += this.speed;
     }
   }

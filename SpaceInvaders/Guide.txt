@@ -6,7 +6,7 @@
 - Rumskib forsvinder efter Kollision (Først efter aliens skyder)
 - Kugle forsvinder efet Kollision (Done)
 - Aliens bevæger sig fra højre til venstre (Done)
-- Andre aliens indfør nedarving
+- Andre aliens indfør nedarving (Done)
 - Bunkers man kan gemme sig bag ved
 - Alien kan skyde indfør nedarving
 - Andre ufoer
