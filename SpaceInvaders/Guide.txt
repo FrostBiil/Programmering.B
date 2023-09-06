@@ -7,7 +7,7 @@
 - Kugle forsvinder efet Kollision (Done)
 - Aliens bevæger sig fra højre til venstre (Done)
 - Andre aliens indfør nedarving (Done)
-- Bunkers man kan gemme sig bag ved
+- Bunkers man kan gemme sig bag ved (Done)
 - Alien kan skyde indfør nedarving
 - Andre ufoer
 - Point system
