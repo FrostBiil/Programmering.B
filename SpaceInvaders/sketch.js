@@ -7,9 +7,6 @@ const aliens_space = 30;
 // Variables
 let aliens_dir = "left";
 
-// Objects
-let spaceship;
-
 // Integers
 let anim_frame = 0;
 
@@ -28,8 +25,9 @@ const squidLaserImages = [];
 const laserImages = [];
 
 const alienArray = [];
-const bullets = [];
+const bulletsArray = [];
 const bunkerArray = [];
+const spaceshipArray = [];
 
 
 
@@ -67,7 +65,7 @@ function setup() {
 
     imageMode(CENTER); // Centering images
 
-    spaceship = new Spaceship(200, 350); // Create a spaceship
+    spaceshipArray.push(new Spaceship(200, 350)); // Create a spaceship
 
     // Create 5 rows of the 3 different aliens
     for (let i = 0; i < 5; i++) {
@@ -95,15 +93,21 @@ function draw() {
 
     for (let i = 0; i < alienArray.length; i++) { alienArray[i].draw(); }
 
-    spaceship.draw();
+    for (let i = 0; i < spaceshipArray.length; i++) {
+        spaceshipArray[i].draw();
+    }
 
     animHandler();
 
-    if (keyIsDown(32) && readyToShoot) { spaceship.shoot(); }
+    if (keyIsDown(32) && readyToShoot) {
+        for (let i = 0; i < spaceshipArray.length; i++) {
+            spaceshipArray[i].shoot();
+        }
+    }
 
-    if (bullets) {
-        for (let i = 0; i < bullets.length; i++) {
-            bullets[i].draw();
+    if (bulletsArray) {
+        for (let i = 0; i < bulletsArray.length; i++) {
+            bulletsArray[i].draw();
         }
     }
 
@@ -132,29 +136,13 @@ function alienShoot() {
     let randomAlien = alienArray[Math.floor(Math.random() * alienArray.length)];
 
     if (randomAlien instanceof Squid) {
-        bullets.push(new Bullet(squidLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
+        bulletsArray.push(new Bullet(squidLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
     } else if (randomAlien instanceof Crab) {
-        bullets.push(new Bullet(crabLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
+        bulletsArray.push(new Bullet(crabLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
     } else if (randomAlien instanceof Octopus) {
-        bullets.push(new Bullet(octopusLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
+        bulletsArray.push(new Bullet(octopusLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
     }
 }
-
-// function to make the squid shoot
-function squidShoot() {
-    
-}
-
-// function to make the crab shoot
-function crabShoot() {
-    
-}
-
-// function to make the octopus shoot
-function octopusShoot() {
-    
-}
-
 
 // function to handle when the aliens move down
 function moveDownAllAliens() {
@@ -292,7 +280,13 @@ class Spaceship {
     // Shoot a bullet
     shoot() {
         readyToShoot = false
-        bullets.push(new Bullet( laserImages, "spaceship", this.x, this.y - this.size.y / 2,));
+        bulletsArray.push(new Bullet(laserImages, "spaceship", this.x, this.y - this.size.y / 2,));
+    }
+
+    // On hit
+    hit() {
+        spaceshipArray.splice(spaceshipArray.indexOf(this), 1);
+        console.log("Game Over");
     }
 }
 
@@ -313,9 +307,8 @@ class Bullet {
         if (this.shooter == "spaceship") {
             this.hitAlien();
         }
-            
-        if (this.shooter == "alien")
-        {
+
+        if (this.shooter == "alien") {
             this.hitSpaceship();
         }
 
@@ -331,7 +324,7 @@ class Bullet {
         this.y -= this.speed;
 
         if (this.y < 0) {
-            bullets.splice(bullets.indexOf(this), 1);
+            bulletsArray.splice(bulletsArray.indexOf(this), 1);
             readyToShoot = true;
         }
     }
@@ -341,7 +334,7 @@ class Bullet {
         for (let i = 0; i < alienArray.length; i++) {
             if (dist(this.x, this.y, alienArray[i].x, alienArray[i].y) < alienArray[i].size.y / 2) {
                 alienArray[i].destroy()
-                bullets.splice(bullets.indexOf(this), 1);
+                bulletsArray.splice(bulletsArray.indexOf(this), 1);
                 readyToShoot = true;
             }
         }
@@ -349,8 +342,12 @@ class Bullet {
 
     // Check if the bullet hit the spaceship
     hitSpaceship() {
-        if (dist(this.x, this.y, spaceship.x, spaceship.y) < spaceship.size.y / 2) {
-            bullets.splice(bullets.indexOf(this), 1);
+        for (let i = 0; i < spaceshipArray.length; i++) {
+            if (dist(this.x, this.y, spaceshipArray[i].x, spaceshipArray[i].y) < spaceshipArray[i].size.y / 2) {
+                bulletsArray.splice(bulletsArray.indexOf(this), 1);
+
+                spaceshipArray[i].hit();
+            }
         }
     }
 
@@ -358,7 +355,7 @@ class Bullet {
     hitBunker() {
         for (let i = 0; i < bunkerArray.length; i++) {
             if (dist(this.x, this.y, bunkerArray[i].x, bunkerArray[i].y) < bunkerArray[i].size.y) {
-                bullets.splice(bullets.indexOf(this), 1);
+                bulletsArray.splice(bulletsArray.indexOf(this), 1);
                 bunkerArray[i].hit();
 
                 readyToShoot = true;
@@ -390,4 +387,40 @@ class Bunker {
     }
 
     destroy() { bunkerArray.splice(bunkerArray.indexOf(this), 1); } // Remove the bunker from the array
+}
+
+// function for game over
+function gameOver() {
+    // Remove all the aliens
+    for (let i = 0; i < alienArray.length; i++) {
+        alienArray.splice(i, 1);
+    }
+
+    // Remove all the bullets
+    for (let i = 0; i < bulletsArray.length; i++) {
+        bulletsArray.splice(i, 1);
+    }
+
+    // Remove all the bunkers
+    for (let i = 0; i < bunkerArray.length; i++) {
+        bunkerArray.splice(i, 1);
+    }
+
+    // Remove the spaceship
+    for (let i = 0; i < spaceshipArray.length; i++) {
+        spaceshipArray.splice(i, 1);
+    }
+
+    // Display game over
+    textSize(32);
+    text("Game Over", 100, 100);
+
+    // Display restart
+    textSize(16);
+    text("Press R to restart", 100, 150);
+
+    // Restart the game
+    if (keyIsDown(82)) {
+        setup();
+    }
 }

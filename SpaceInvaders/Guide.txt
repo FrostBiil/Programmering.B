@@ -3,7 +3,7 @@
 - To rækker ens aliens (Done)
 - Rumskib skal skyde (Done)
 - Kollisionsdetektion (Done)
-- Rumskib forsvinder efter Kollision (Først efter aliens skyder)
+- Rumskib forsvinder efter Kollision (done)
 - Kugle forsvinder efet Kollision (Done)
 - Aliens bevæger sig fra højre til venstre (Done)
 - Andre aliens indfør nedarving (Done)
@@ -11,3 +11,4 @@
 - Alien kan skyde indfør nedarving (Done)
 - Andre ufoer
 - Point system
+- game over og restart (done)
