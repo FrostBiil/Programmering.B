@@ -22,59 +22,39 @@ const SquidImages = [];
 const CrabImages = [];
 const OctopusImages = [];
 const bunkerImages = [];
+const crabLaserImages = [];
+const octopusLaserImages = [];
+const squidLaserImages = [];
+const laserImages = [];
+
 const alienArray = [];
 const bullets = [];
 const bunkerArray = [];
+
+
 
 //#endregion
 
 // Load images
 function preload() {
-    // Load spaceship images
-    for (let i = 1; i < 4; i++) {
-        const img = loadImage(`Images/SpaceShips/img${i}.png`);
-        if (img) {
-            spaceshipImages.push(img);
-        } else {
-            console.error(`Failed to load image ship_${i}.png`);
-        }
-    }
+    loadImages(spaceshipImages, "Spaceship", 1);
+    loadImages(SquidImages, "Squid", 2);
+    loadImages(CrabImages, "Crab", 2);
+    loadImages(OctopusImages, "Octopus", 2);
+    loadImages(bunkerImages, "Bunker", 1)
+    loadImages(crabLaserImages, "CrabLaser", 4)
+    loadImages(octopusLaserImages, "OctopusLaser", 4)
+    loadImages(squidLaserImages, "SquidLaser", 4)
+    loadImages(laserImages, "Laser", 1)
 
-    // Load Squid images
-    for (let i = 1; i < 3; i++) {
-        const img = loadImage(`Images/Squid/Img${i}.png`);
-        if (img) {
-            SquidImages.push(img);
-        } else {
-            console.error(`Failed to load image Img${i}.png`);
-        }
-    }
+}
 
-    // Load Crab images
-    for (let i = 1; i < 3; i++) {
-        const img = loadImage(`Images/Crab/Img${i}.png`);
+// function to load images in a loop
+function loadImages(array, name, count) {
+    for (let i = 0; i < count; i++) {
+        const img = loadImage(`Images/${name}/Img${i}.png`);
         if (img) {
-            CrabImages.push(img);
-        } else {
-            console.error(`Failed to load image Img${i}.png`);
-        }
-    }
-
-    // Load Octopus images
-    for (let i = 1; i < 3; i++) {
-        const img = loadImage(`Images/Octopus/Img${i}.png`);
-        if (img) {
-            OctopusImages.push(img);
-        } else {
-            console.error(`Failed to load image Img${i}.png`);
-        }
-    }
-
-    // Load bunker images
-    for (let i = 1; i < 4; i++) {
-        const img = loadImage(`Images/Bunker/Img${i}.png`);
-        if (img) {
-            bunkerImages.push(img);
+            array.push(img);
         } else {
             console.error(`Failed to load image Img${i}.png`);
         }
@@ -130,22 +110,56 @@ function draw() {
     for (let i = 0; i < bunkerArray.length; i++) {
         bunkerArray[i].draw();
     }
+
+    // alienShoot();
+    if (frameCount % 60 === 0) {
+        alienShoot();
+    }
 }
 
+// cycling animations for the aliens
 function animHandler() {
     anim_frame++;
     if (anim_frame % anim_change_rate === 0) {
-        spaceship.animate();
-
         for (let i = 0; i < alienArray.length; i++) {
             alienArray[i].animate();
         }
     }
 }
 
+// function to make the aliens shoot
+function alienShoot() {
+    let randomAlien = alienArray[Math.floor(Math.random() * alienArray.length)];
+
+    if (randomAlien instanceof Squid) {
+        bullets.push(new Bullet(squidLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
+    } else if (randomAlien instanceof Crab) {
+        bullets.push(new Bullet(crabLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
+    } else if (randomAlien instanceof Octopus) {
+        bullets.push(new Bullet(octopusLaserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
+    }
+}
+
+// function to make the squid shoot
+function squidShoot() {
+    
+}
+
+// function to make the crab shoot
+function crabShoot() {
+    
+}
+
+// function to make the octopus shoot
+function octopusShoot() {
+    
+}
+
+
+// function to handle when the aliens move down
 function moveDownAllAliens() {
     for (let i = 0; i < alienArray.length; i++) {
-        if ((alienArray[i].x - alienArray[i].speed <= 0 && aliens_dir == "left") || (alienArray[i].x + alienArray[i].size + alienArray[i].speed >= width && aliens_dir == "right")) {
+        if ((alienArray[i].x - alienArray[i].speed <= 0 && aliens_dir == "left") || (alienArray[i].x + alienArray[i].size.x + alienArray[i].speed >= width && aliens_dir == "right")) {
             if (aliens_dir == "left") {
                 aliens_dir = "right";
                 return true;
@@ -158,18 +172,19 @@ function moveDownAllAliens() {
     return false;
 }
 
+// create a class for the aliens
 class Alien {
     constructor(x = 200, y = 200) {
         this.x = x;
         this.y = y;
-        this.size = 20;
+        this.size = createVector(16, 8);
         this.speed = 10;
         this.verticalSpeed = 20;
     }
 
     // Draw the alien
     draw() {
-        image(this.image, this.x, this.y, this.size, this.size);
+        image(this.image, this.x, this.y, this.size.x, this.size.y);
     }
 
     // Move the alien from side to side and down
@@ -197,6 +212,7 @@ class Alien {
     }
 }
 
+// create a class for the squid that extends the alien class
 class Squid extends Alien {
     constructor(x = 200, y = 200) {
         super(x, y);
@@ -211,6 +227,7 @@ class Squid extends Alien {
     }
 }
 
+// create a class for the crab that extends the alien class
 class Crab extends Alien {
     constructor(x = 200, y = 200) {
         super(x, y);
@@ -225,6 +242,7 @@ class Crab extends Alien {
     }
 }
 
+// create a class for the octopus that extends the alien class
 class Octopus extends Alien {
     constructor(x = 200, y = 200) {
         super(x, y);
@@ -244,7 +262,7 @@ class Spaceship {
     constructor(x = 200, y = 300) {
         this.x = x;
         this.y = y;
-        this.size = 20;
+        this.size = createVector(16, 8);
         this.speed = 1;
         this.direction = 0;
         this.image = spaceshipImages[0];
@@ -253,13 +271,13 @@ class Spaceship {
     // Draw the spaceship
     draw() {
         this.move();
-        image(this.image, this.x, this.y, this.size, this.size);
+        image(this.image, this.x, this.y, this.size.x, this.size.y);
     }
 
     // Move the spaceship
     move() {
         if (keyIsDown(LEFT_ARROW) && this.x > 0) { this.x -= this.speed; }
-        if (keyIsDown(RIGHT_ARROW) && this.x < width - this.size) { this.x += this.speed; }
+        if (keyIsDown(RIGHT_ARROW) && this.x < width - this.size.x) { this.x += this.speed; }
     }
 
     // Animation of the spaceship
@@ -274,28 +292,38 @@ class Spaceship {
     // Shoot a bullet
     shoot() {
         readyToShoot = false
-        bullets.push(new Bullet(this.x, this.y-this.size/2,));
+        bullets.push(new Bullet( laserImages, "spaceship", this.x, this.y - this.size.y / 2,));
     }
 }
 
 class Bullet {
-    constructor(x = 200, y = 300, speed = 2) {
+    constructor(image, shooter, x = 200, y = 300, speed = 2) {
         this.x = x;
         this.y = y;
-        this.sizex = 2;
-        this.sizey = 4;
+        this.image = image[0];
+        this.shooter = shooter;
+        this.size = createVector(2, 8);
         this.speed = speed;
     }
 
     // Draw the bullet
     draw() {
         this.move();
-        this.hitAlien();
+
+        if (this.shooter == "spaceship") {
+            this.hitAlien();
+        }
+            
+        if (this.shooter == "alien")
+        {
+            this.hitSpaceship();
+        }
+
         this.hitBunker();
 
         noStroke();
         fill(255);
-        rect(this.x, this.y, this.sizex, this.sizey);
+        rect(this.x, this.y, this.size.x, this.size.y);
     }
 
     // Move the bullet
@@ -311,7 +339,7 @@ class Bullet {
     // Check if the bullet hit an alien
     hitAlien() {
         for (let i = 0; i < alienArray.length; i++) {
-            if (dist(this.x, this.y, alienArray[i].x, alienArray[i].y) < alienArray[i].size/2) {
+            if (dist(this.x, this.y, alienArray[i].x, alienArray[i].y) < alienArray[i].size.y / 2) {
                 alienArray[i].destroy()
                 bullets.splice(bullets.indexOf(this), 1);
                 readyToShoot = true;
@@ -319,13 +347,20 @@ class Bullet {
         }
     }
 
+    // Check if the bullet hit the spaceship
+    hitSpaceship() {
+        if (dist(this.x, this.y, spaceship.x, spaceship.y) < spaceship.size.y / 2) {
+            bullets.splice(bullets.indexOf(this), 1);
+        }
+    }
+
     // Check if the bullet hit a bunker
     hitBunker() {
         for (let i = 0; i < bunkerArray.length; i++) {
-            if (dist(this.x, this.y, bunkerArray[i].x, bunkerArray[i].y) < bunkerArray[i].size) {
+            if (dist(this.x, this.y, bunkerArray[i].x, bunkerArray[i].y) < bunkerArray[i].size.y) {
                 bullets.splice(bullets.indexOf(this), 1);
                 bunkerArray[i].hit();
-            
+
                 readyToShoot = true;
             }
         }
@@ -337,20 +372,20 @@ class Bunker {
     constructor(x = 200, y = 250) {
         this.x = x;
         this.y = y;
-        this.size = 50;
+        this.size = createVector(22, 16);
         this.life = 3;
         this.image = bunkerImages[0];
     }
 
     // Draw 
     draw() {
-        image(this.image, this.x, this.y, this.size, this.size);
+        image(this.image, this.x, this.y, this.size.x, this.size.y);
     }
 
     // On hit
     hit() {
         this.life--;
-        this.image = bunkerImages[3 - this.life];
+        console.log(this.life);
         if (this.life === 0) this.destroy();
     }
 
