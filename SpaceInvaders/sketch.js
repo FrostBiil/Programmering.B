@@ -9,6 +9,7 @@ let aliens_dir = "left";
 
 // Integers
 let anim_frame = 0;
+let points = 0;
 
 // Booleans
 let readyToShoot = true;
@@ -59,6 +60,7 @@ function loadImages(array, name, count) {
     }
 }
 
+
 // setup the game
 function setup() {
     createCanvas(400, 400); // Create a canvas
@@ -82,6 +84,8 @@ function setup() {
 // running the game
 function draw() {
     background(0); // Set the background to black
+
+    displayPoints(); // Display points
 
     if (frameCount % 30 === 0) { // Every 30 frames
         if (moveDownAllAliens()) {
@@ -307,8 +311,7 @@ class Bullet {
         if (this.shooter == "spaceship") {
             this.hitAlien();
         }
-
-        if (this.shooter == "alien") {
+        else if (this.shooter == "alien") {
             this.hitSpaceship();
         }
 
@@ -336,6 +339,7 @@ class Bullet {
                 alienArray[i].destroy()
                 bulletsArray.splice(bulletsArray.indexOf(this), 1);
                 readyToShoot = true;
+                addPoints(100);
             }
         }
     }
@@ -358,7 +362,10 @@ class Bullet {
                 bulletsArray.splice(bulletsArray.indexOf(this), 1);
                 bunkerArray[i].hit();
 
-                readyToShoot = true;
+                if (this.shooter == "spaceship")
+                {
+                    readyToShoot = true;
+                }
             }
         }
     }
@@ -411,9 +418,11 @@ function gameOver() {
         spaceshipArray.splice(i, 1);
     }
 
-    // Display game over
+    // Display game over and the amount of points
     textSize(32);
     text("Game Over", 100, 100);
+    text("Points: " + points, 100, 130);
+    
 
     // Display restart
     textSize(16);
@@ -423,4 +432,16 @@ function gameOver() {
     if (keyIsDown(82)) {
         setup();
     }
+}
+
+// function to display points
+function displayPoints() {
+    // Display points
+    textSize(16);
+    text("Points: " + points, 10, 20);
+}
+
+// function to add points
+function addPoints(amount) {
+    points += amount;
 }

@@ -10,5 +10,5 @@
 - Bunkers man kan gemme sig bag ved (Done)
 - Alien kan skyde indfør nedarving (Done)
 - Andre ufoer
-- Point system
+- Point system (Done)
 - game over og restart (done)
