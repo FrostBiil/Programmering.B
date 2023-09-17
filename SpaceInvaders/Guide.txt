@@ -1,4 +1,4 @@
-- Rumskib Grafik og animation (Done)
+- Rumskib Grafik (Done)
 - 1 Alien grafik og animation (Done)
 - To rækker ens aliens (Done)
 - Rumskib skal skyde (Done)

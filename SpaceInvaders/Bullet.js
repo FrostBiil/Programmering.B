@@ -1,10 +1,10 @@
 class Bullet {
-    constructor(image, shooter, x = 200, y = 300, speed = 2) {
+    constructor(image, shooter, x = window.innerWidth / 2, y = window.innerHeight - 50, speed = 0.02 * window.innerHeight) {
         this.x = x;
         this.y = y;
         this.image = image[0];
         this.shooter = shooter;
-        this.size = createVector(2, 8);
+        this.size = createVector(0.002 * window.innerWidth, 0.008 * window.innerHeight);
         this.speed = speed;
     }
 
@@ -53,7 +53,6 @@ class Bullet {
         for (let i = 0; i < spaceshipArray.length; i++) {
             if (dist(this.x, this.y, spaceshipArray[i].x, spaceshipArray[i].y) < spaceshipArray[i].size.y / 2) {
                 bulletsArray.splice(bulletsArray.indexOf(this), 1);
-
                 spaceshipArray[i].hit();
             }
         }
@@ -66,8 +65,7 @@ class Bullet {
                 bulletsArray.splice(bulletsArray.indexOf(this), 1);
                 bunkerArray[i].hit();
 
-                if (this.shooter == "spaceship")
-                {
+                if (this.shooter == "spaceship") {
                     readyToShoot = true;
                 }
             }

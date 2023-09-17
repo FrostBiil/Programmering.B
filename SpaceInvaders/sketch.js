@@ -1,4 +1,3 @@
-//#region
 // Constant(s)
 const anim_change_rate = 20;
 const aliens_per_row = 8;
@@ -10,7 +9,6 @@ let aliens_dir = "left";
 // Integer(s)
 let anim_frame = 0;
 let points = 0;
-
 
 // Boolean(s)
 let readyToShoot = true;
@@ -40,7 +38,10 @@ const bunkerArray = [];
 const spaceshipArray = [];
 const ufoArray = [];
 
-//#endregion
+// Responsive canvas size
+let canvas;
+let canvasWidth;
+let canvasHeight;
 
 // Load images
 function preload() {
@@ -70,13 +71,14 @@ function loadImages(array, name, count) {
 }
 
 
-// setup the game
+
 function setup() {
-    createCanvas(400, 400); // Create a canvas
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
+    canvas = createCanvas(canvasWidth, canvasHeight);
+    imageMode(CENTER);
 
-    imageMode(CENTER); // Centering images
-
-    spaceshipArray.push(new Spaceship(200, 350)); // Create a spaceship
+    spaceshipArray.push(new Spaceship(canvasWidth / 2, canvasHeight - 50));
 
     const alienTypes = [Octopus, Crab, Crab, Squid, Squid];
     const rows = 5;
@@ -88,27 +90,46 @@ function setup() {
         }
     }
 
-    // creates 3 bunkers
+    // Create 3 bunkers
     for (let i = 0; i < 3; i++) {
-        bunkerArray.push(new Bunker(50 + i * 150, 300));
+        bunkerArray.push(new Bunker(50 + i * (canvasWidth / 4), canvasHeight - 100));
     }
 }
 
-// running the game
+function windowResized() {
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
+    resizeCanvas(canvasWidth, canvasHeight);
+
+    // Adjust positions and sizes of elements based on the new canvas size
+    for (let i = 0; i < spaceshipArray.length; i++) {
+        spaceshipArray[i].updatePosition(canvasWidth / 2, canvasHeight - 50);
+    }
+
+    for (let i = 0; i < bunkerArray.length; i++) {
+        bunkerArray[i].updatePosition(50 + i * (canvasWidth / 4), canvasHeight - 100);
+    }
+}
+
 function draw() {
-    background(0); // Set the background to black
-
-    displayPoints(); // Display points
-
-    if (frameCount % 30 === 0) { // Every 30 frames
+    background(0);
+    displayPoints();
+    
+    if (frameCount % 30 === 0) {
         if (moveDownAllAliens()) {
-            for (let i = 0; i < alienArray.length; i++) { alienArray[i].moveDown(); }
+            for (let i = 0; i < alienArray.length; i++) {
+                alienArray[i].moveDown();
+            }
         } else {
-            for (let i = 0; i < alienArray.length; i++) { alienArray[i].move(); }
+            for (let i = 0; i < alienArray.length; i++) {
+                alienArray[i].move();
+            }
         }
     }
 
-    for (let i = 0; i < alienArray.length; i++) { alienArray[i].draw(); }
+    for (let i = 0; i < alienArray.length; i++) {
+        alienArray[i].draw();
+    }
 
     for (let i = 0; i < spaceshipArray.length; i++) {
         spaceshipArray[i].draw();
@@ -136,7 +157,6 @@ function draw() {
         ufoArray[i].draw();
     }
 
-    // alienShoot();
     if (frameCount % 60 === 0) {
         alienShoot();
     }
@@ -147,7 +167,6 @@ function draw() {
     }
 }
 
-// cycling animations for the aliens
 function animHandler() {
     anim_frame++;
     if (anim_frame % anim_change_rate === 0) {
@@ -157,7 +176,6 @@ function animHandler() {
     }
 }
 
-// function to make the aliens shoot
 function alienShoot() {
     let randomAlien = alienArray[Math.floor(Math.random() * alienArray.length)];
     const alienType = randomAlien.constructor.name;
@@ -165,10 +183,9 @@ function alienShoot() {
     bulletsArray.push(new Bullet(laserImages, "alien", randomAlien.x, randomAlien.y + randomAlien.size.y / 2, -2));
 }
 
-// function to handle when the aliens move down
 function moveDownAllAliens() {
     for (let i = 0; i < alienArray.length; i++) {
-        if ((alienArray[i].x - alienArray[i].speed <= 0 && aliens_dir == "left") || (alienArray[i].x + alienArray[i].size.x + alienArray[i].speed >= width && aliens_dir == "right")) {
+        if ((alienArray[i].x - alienArray[i].speed <= 0 && aliens_dir == "left") || (alienArray[i].x + alienArray[i].size.x + alienArray[i].speed >= canvasWidth && aliens_dir == "right")) {
             if (aliens_dir == "left") {
                 aliens_dir = "right";
                 return true;
@@ -181,52 +198,40 @@ function moveDownAllAliens() {
     return false;
 }
 
-// function for game over
 function gameOver() {
-    // Remove all the aliens
     for (let i = 0; i < alienArray.length; i++) {
         alienArray.splice(i, 1);
     }
 
-    // Remove all the bullets
     for (let i = 0; i < bulletsArray.length; i++) {
         bulletsArray.splice(i, 1);
     }
 
-    // Remove all the bunkers
     for (let i = 0; i < bunkerArray.length; i++) {
         bunkerArray.splice(i, 1);
     }
 
-    // Remove the spaceship
     for (let i = 0; i < spaceshipArray.length; i++) {
         spaceshipArray.splice(i, 1);
     }
 
-    // Display game over and the amount of points
     textSize(32);
-    text("Game Over", 100, 100);
-    text("Points: " + points, 100, 130);
+    text("Game Over", canvasWidth / 3, canvasHeight / 2 - 50);
+    text("Points: " + points, canvasWidth / 3, canvasHeight / 2);
 
-
-    // Display restart
     textSize(16);
-    text("Press R to restart", 100, 150);
+    text("Press R to restart", canvasWidth / 3, canvasHeight / 2 + 30);
 
-    // Restart the game
     if (keyIsDown(82)) {
         setup();
     }
 }
 
-// function to display points
 function displayPoints() {
-    // Display points
     textSize(16);
-    text("Points: " + points, 10, 20);
+    text("Points: " + points, canvasWidth - 80, 20);
 }
 
-// function to add points
 function addPoints(amount) {
     points += amount;
 }

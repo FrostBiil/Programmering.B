@@ -1,11 +1,10 @@
-// create a class for the aliens
 class Alien {
-    constructor(x = 200, y = 200) {
+    constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
-        this.size = createVector(16, 8);
+        this.size = createVector(0.04 * window.innerWidth, 0.02 * window.innerHeight);
         this.speed = 10;
-        this.verticalSpeed = 20;
+        this.verticalSpeed = 0.04 * window.innerHeight;
     }
 
     // Draw the alien
@@ -38,9 +37,8 @@ class Alien {
     }
 }
 
-// create a class for the squid that extends the alien class
 class Squid extends Alien {
-    constructor(x = 200, y = 200) {
+    constructor(x = 0, y = 0) {
         super(x, y);
         this.image = SquidImages[0];
     }
@@ -53,9 +51,8 @@ class Squid extends Alien {
     }
 }
 
-// create a class for the crab that extends the alien class
 class Crab extends Alien {
-    constructor(x = 200, y = 200) {
+    constructor(x = 0, y = 0) {
         super(x, y);
         this.image = CrabImages[0];
     }
@@ -68,9 +65,8 @@ class Crab extends Alien {
     }
 }
 
-// create a class for the octopus that extends the alien class
 class Octopus extends Alien {
-    constructor(x = 200, y = 200) {
+    constructor(x = 0, y = 0) {
         super(x, y);
         this.image = OctopusImages[0];
     }
@@ -82,3 +78,4 @@ class Octopus extends Alien {
         this.image = OctopusImages[nextIndex];
     }
 }
+
