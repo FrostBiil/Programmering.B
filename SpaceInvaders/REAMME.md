@@ -27,4 +27,9 @@ Alt kode er kommenteret, den primære kode findes i filen: sketch.js, men alle k
 Programmet er løbende blevet testet i de enkelte trin om det ønskede resultat forkommer, ud fra modellen: Hvad testes, hvad er forventet, hvad er resultatet, Succes/Fiasko?
 
    Følgende test er foretaget:
+   Spaceships liv testes, spaceship har 3 liv og dør efterfølgende, spaceship dør og en restart skærm kommer, spaceship forsvinder spillet viser do kun gameover og din score i et split sekund, det er delvist en succes, men en bug skal fikses.
+
+   Når aliens rammes af spaceships laser, aliens forsvinder når de rammes af et skud fra spaceship, aliens forsvinder når de rammes, dette er en succes.
+
+    Rumskibe kommer en gang i mellem, der skal komme et rumskib hver 300'erne frame, det vil sige hvert 300/60 = 5 sekund, der kommer et rumskib hvert 5 sekund, dette er en succes.
  
