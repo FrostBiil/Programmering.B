@@ -25,5 +25,6 @@ Alt kode er kommenteret, den primære kode findes i filen: sketch.js, men alle k
 
 4. **Test af spillet**
 Programmet er løbende blevet testet i de enkelte trin om det ønskede resultat forkommer, ud fra modellen: Hvad testes, hvad er forventet, hvad er resultatet, Succes/Fiasko?
-  Følgende test er foretaget:
+
+   Følgende test er foretaget:
  
