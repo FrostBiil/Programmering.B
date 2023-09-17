@@ -8,7 +8,7 @@ Dette Space Invaders-spil vil indeholde følgende funktioner:
 
 1. **Klassisk Gameplay:** Genskabelse af en ikonisk gameplay-oplevelse med et rumskib, der skyder på indtrængende rumvæsner, som bevæger sig nedad mod jorden.
 
-2. **Klassisk Grafik:** Grafikken er lavet i Asesprite ud fra de klassiske modeller for at give spillet et sit klassiske look.
+2. **Klassisk Grafik:** Genskabelse af den klassiske grafik, der vækker barndomsminder hos mine forældres og bedsteforældres generation, som giver spillet sit klassiske look.
 
 ## Udviklingsmetode
 
