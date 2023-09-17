@@ -14,11 +14,16 @@ Dette Space Invaders-spil vil indeholde følgende funktioner:
 
 I de kommende sektioner vil jeg detaljere min udviklingsmetode for dette Space Invaders-projekt. Jeg vil diskutere værktøjer, teknologier og trin, der anvendes til at skabe spillet, inklusive design, kodning og testning.
 
-1. **Værktøjer, teknologier og trin**
+1. **Værktøjer og teknologier**
+Spillet er udviklet i kode miljøet Visual Studio Code (VS Code), med følgende Extentiosn: 1. Live Server, som fungere som et test miljø for koden. 2. p5.vscode, som kan genere p5js miljøet til udvikling af programmet. 3. GitHub CO-pilot, som er en AI der kommer med forslag til koden, bruges mest til at give dem data så de kan udvikle en bedre AI. 4. ChatGPT, som hjælper med debugging af logiske fejl, der ikke opfanges som en syntaks fejl af VS Code.
 
 2. **Design af grafik**
+Alt grafikken er hjemmelavet ud fra gamle billeder af spillet og der kan forekomme afvigelser. Grafikken er lavet i programmet Asesprite.
 
 3. **Koden**
+Alt kode er kommenteret, den primære kode findes i filen: sketch.js, men alle klasser der henvises til er i seperate scripts, filnavnet er klassens navn + .js.
 
 4. **Test af spillet**
-
+Programmet er løbende blevet testet i de enkelte trin om det ønskede resultat forkommer, ud fra modellen: Hvad testes, hvad er forventet, hvad er resultatet, Succes/Fiasko?
+Følgende test er foretaget:
+ 
