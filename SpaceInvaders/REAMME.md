@@ -6,7 +6,7 @@ Velkommen til Space Invaders! Dette projekt er en genskabelse af det klassiske a
 
 Dette Space Invaders-spil vil indeholde følgende funktioner:
 
-1. **Klassisk Gameplay:** Genskabelse af en ikonisk gameplay-oplevelse med et rumskib, der skyder på indtrængende rumvæsner, som bevæger sig nedad mod jorden.
+1. **Klassisk Gameplay:**  Genskabelse af en ikonisk gameplay-oplevelse med et rumskib, der skyder på indtrængende rumvæsner, som bevæger sig nedad mod jorden.
 
 2. **Klassisk Grafik:** Genskabelse af den klassiske grafik, der vækker barndomsminder hos mine forældres og bedsteforældres generation, som giver spillet sit klassiske look.
 
@@ -25,5 +25,6 @@ Alt kode er kommenteret, den primære kode findes i filen: sketch.js, men alle k
 
 4. **Test af spillet**
 Programmet er løbende blevet testet i de enkelte trin om det ønskede resultat forkommer, ud fra modellen: Hvad testes, hvad er forventet, hvad er resultatet, Succes/Fiasko?
+
 Følgende test er foretaget:
  
