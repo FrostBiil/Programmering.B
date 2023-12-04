@@ -4,11 +4,19 @@ import requests
 # Function to retrieve weather data
 def getWeather(city):
     print(f"Søger efter vejret i {city}...")
-    url = f"https://api.weatherstack.com/current?access_key=f80abd00708e72ed042f3f6af77c5fab&query={city}"
+    url = f"http://api.weatherstack.com/current?access_key=52d40b52fa3de13f3e4f4692fbb455fd&query={city}"
     response = requests.get(url)
-    print(response)
-    json = response.json()['current']
-    print(json)
+    print("Response Status Code:", response.status_code)
+    
+    data = response.json()
+    print("API Response:", data)
+
+    if 'current' in data:
+        current_weather = data['current']
+        print(current_weather)
+    else:
+        print("Error: 'current' key not found in response. Response content:", data)
+
 
 root = tk.Tk()
 root.title("Vejr App")
