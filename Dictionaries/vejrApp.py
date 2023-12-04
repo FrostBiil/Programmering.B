@@ -4,7 +4,7 @@ import requests
 # Function to retrieve weather data
 def getWeather(city):
     print(f"Søger efter vejret i {city}...")
-    url = f"https://api.weatherstack.com/current?access_key=3f5b8b8b0f5b0b0f5b0f5b0f5b0f5b0f&query={city}"
+    url = f"https://api.weatherstack.com/current?access_key=f80abd00708e72ed042f3f6af77c5fab&query={city}"
     response = requests.get(url)
     print(response)
     json = response.json()['current']
